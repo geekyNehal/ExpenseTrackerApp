@@ -23,7 +23,8 @@
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_gravity="center"
-                android:background="@drawable/ExpenseLogo"/>
+                android:background="@drawable/expenselogo"
+                android:layout_margin="10dp"/>
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

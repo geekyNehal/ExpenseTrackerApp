@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "218926274456",
+    "firebase_url": "https://expensetrackerapp-e69ef.firebaseio.com",
+    "project_id": "expensetrackerapp-e69ef",
+    "storage_bucket": "expensetrackerapp-e69ef.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:218926274456:android:e40a21d636a80710",
+        "android_client_info": {
+          "package_name": "com.project.geekynehal.expensetrackerapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "218926274456-tidecf0i2cl8qimiv6r55r9vlp3h69uh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNO7SLCvFZ0zDbY8B4__kOpECl_-J4g4A"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
