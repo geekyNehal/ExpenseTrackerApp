@@ -61,19 +61,19 @@ public class MainActivity extends AppCompatActivity
                         login_password.setError("Required Field");
                         return ;
                     }
-                    mDialog.setMessage("Please Wait while Processing..");
+                    mDialog.setMessage("Please wait while Processing..");
                     mDialog.show();
                     mAuth.signInWithEmailAndPassword(mEmail,mPass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if(task.isSuccessful())
-                            {
-                                startActivity(new Intent(getApplicationContext(),HomeActivity.class));
-                                Toast.makeText(MainActivity.this, "Success", Toast.LENGTH_SHORT).show();
-                                mDialog.dismiss();
-                            }
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if(task.isSuccessful())
+                        {
+                            startActivity(new Intent(getApplicationContext(),HomeActivity.class));
+                            Toast.makeText(MainActivity.this, "Success", Toast.LENGTH_SHORT).show();
+                            mDialog.dismiss();
                         }
-                    });
+                    }
+                });
             }
         });
     }
