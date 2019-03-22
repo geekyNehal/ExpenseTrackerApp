@@ -31,7 +31,7 @@ public class RegisterActivity extends AppCompatActivity {
         email=findViewById(R.id.sign_up_user);
         pass=findViewById(R.id.sign_up_pass);
         btnReg=findViewById(R.id.sign_up_btn);
-        signin=findViewById(R.id.sign_in_btn);
+        signin=findViewById(R.id.sign_in_text);
         mAuth=FirebaseAuth.getInstance();
         mDialog=new ProgressDialog(this);
         signin.setOnClickListener(new View.OnClickListener() {
@@ -55,7 +55,7 @@ public class RegisterActivity extends AppCompatActivity {
                     pass.setError("Required Field!");
                     return ;
                 }
-                mDialog.setMessage("Please wait while Processing..");
+                mDialog.setMessage("Processing..");
                 mDialog.show();
                 mAuth.createUserWithEmailAndPassword(mEmail,mPass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override

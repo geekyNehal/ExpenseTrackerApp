@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity
                         login_password.setError("Required Field");
                         return ;
                     }
-                    mDialog.setMessage("Please wait while Processing..");
+                    mDialog.setMessage("Processing..");
                     mDialog.show();
                     mAuth.signInWithEmailAndPassword(mEmail,mPass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
