@@ -1,8 +1,10 @@
 package com.project.geekynehal.expensetrackerapp;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -16,7 +18,12 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -30,13 +37,14 @@ public class HomeActivity extends AppCompatActivity
     private int amount;
     private String note;
     private String post_key;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Expense List");
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -56,6 +64,37 @@ public class HomeActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        totalsumResult=findViewById(R.id.total_amount);
+
+        mAuth=FirebaseAuth.getInstance();
+        //getting user detail
+        FirebaseUser mUser=mAuth.getCurrentUser();
+        String uId=mUser.getUid();
+        mDatabase= FirebaseDatabase.getInstance().getReference().child("Expense Tracker").child(uId);
+        mDatabase.keepSynced(true);
+
+        recyclerView=findViewById(R.id.recycler_home);
+        LinearLayoutManager layoutManager=new LinearLayoutManager(this);
+        layoutManager.setStackFromEnd(true);
+
+        //Reversing item traversal and layout order.(first layout laid out at the end.
+        layoutManager.setReverseLayout(true);
+
+        recyclerView.setHasFixedSize(true);
+        //avoiding unnecessary layout passes.
+        recyclerView.setLayoutManager(layoutManager);
+
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     @Override
