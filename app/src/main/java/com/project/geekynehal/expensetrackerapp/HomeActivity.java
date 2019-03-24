@@ -15,8 +15,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -90,7 +92,10 @@ public class HomeActivity extends AppCompatActivity
                     int total_amount=0;
                     for(DataSnapshot snap:dataSnapshot.getChildren())
                     {
-
+                        Data data=snap.getValue(Data.class);
+                        total_amount=data.getAmount();
+                        String amount =String.valueOf(total_amount+".00");
+                        totalsumResult.setText(amount);
                     }
             }
 
@@ -156,5 +161,17 @@ public class HomeActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+    }
+
+    private class MyViewHolder extends RecyclerView.ViewHolder {
+        public MyViewHolder(@NonNull View itemView) {
+            super(itemView);
+        }
     }
 }
