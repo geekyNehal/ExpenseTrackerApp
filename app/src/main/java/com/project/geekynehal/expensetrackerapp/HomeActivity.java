@@ -87,7 +87,11 @@ public class HomeActivity extends AppCompatActivity
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                
+                    int total_amount=0;
+                    for(DataSnapshot snap:dataSnapshot.getChildren())
+                    {
+
+                    }
             }
 
             @Override
