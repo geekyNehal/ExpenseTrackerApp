@@ -111,7 +111,10 @@ public class HomeActivity extends AppCompatActivity
     {
         AlertDialog.Builder myDialog=new AlertDialog.Builder(HomeActivity.this);
         LayoutInflater inflater=LayoutInflater.from(HomeActivity.this);
-        //View myView=inflater.inflate()
+        View myView=inflater.inflate(R.layout.input_data,null);
+        AlertDialog dialog=myDialog.create();
+        dialog.setView(myView);
+        dialog.show();
     }
 
     @Override
