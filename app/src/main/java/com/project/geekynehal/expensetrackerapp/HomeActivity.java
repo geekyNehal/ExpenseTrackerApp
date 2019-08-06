@@ -7,6 +7,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -18,6 +19,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -28,6 +31,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.lang.reflect.Type;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -112,8 +117,37 @@ public class HomeActivity extends AppCompatActivity
         AlertDialog.Builder myDialog=new AlertDialog.Builder(HomeActivity.this);
         LayoutInflater inflater=LayoutInflater.from(HomeActivity.this);
         View myView=inflater.inflate(R.layout.input_data,null);
-        AlertDialog dialog=myDialog.create();
+        final AlertDialog dialog=myDialog.create();
         dialog.setView(myView);
+        final EditText type=myView.findViewById(R.id.edt_type);
+        final EditText amt=myView.findViewById(R.id.edt_ammount);
+        final EditText note=myView.findViewById(R.id.edt_note);
+
+        Button btnSave=myView.findViewById(R.id.btn_save);
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String mType= type.getText().toString().trim();
+                String mAmount=amt.getText().toString().trim();
+                String mNote=note.getText().toString().trim();
+                if(TextUtils.isEmpty(mType))
+                {
+                    type.setError("Required Field..");
+                    return ;
+                }
+                if(TextUtils.isEmpty(mAmount))
+                {
+                    amt.setError("Required Field..");
+                    return ;
+                }
+                if(TextUtils.isEmpty(mNote))
+                {
+                    note.setError("Required Field..");
+                    return ;
+                }
+                dialog.dismiss();
+            }
+        });
         dialog.show();
     }
 
