@@ -114,9 +114,12 @@ public class HomeActivity extends AppCompatActivity
             @NonNull
             @Override
             public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                return null;
+                View view=LayoutInflater.from(viewGroup.getContext())
+                        .inflate(R.layout.item_data,viewGroup,false);
+                return new MyViewHolder(view);
             }
         };
+        recyclerView.setAdapter(firebaseRecyclerAdapter);
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -243,7 +246,13 @@ public class HomeActivity extends AppCompatActivity
     @Override
     protected void onStart() {
         super.onStart();
+        firebaseRecyclerAdapter.startListening();
+    }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        firebaseRecyclerAdapter.stopListening();
     }
 
     private class MyViewHolder extends RecyclerView.ViewHolder
