@@ -25,12 +25,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.lang.reflect.Type;
@@ -44,6 +46,7 @@ public class HomeActivity extends AppCompatActivity
     private FirebaseAuth mAuth;
     private RecyclerView recyclerView;
     private TextView totalsumResult;
+    FirebaseRecyclerAdapter<Data,MyViewHolder> firebaseRecyclerAdapter;
 
     private String type;
     private int amount;
@@ -84,6 +87,8 @@ public class HomeActivity extends AppCompatActivity
         mDatabase= FirebaseDatabase.getInstance().getReference().child("Expense Tracker").child(uId);
         mDatabase.keepSynced(true);
 
+        Query query=mDatabase.orderByKey();
+
         recyclerView=findViewById(R.id.recycler_home);
         LinearLayoutManager layoutManager=new LinearLayoutManager(this);
         layoutManager.setStackFromEnd(true);
@@ -95,6 +100,23 @@ public class HomeActivity extends AppCompatActivity
         //avoiding unnecessary layout passes.
         recyclerView.setLayoutManager(layoutManager);
 
+        FirebaseRecyclerOptions recyclerOptions=new FirebaseRecyclerOptions.Builder<Data>().setQuery(query,Data.class).build();
+
+        firebaseRecyclerAdapter=new FirebaseRecyclerAdapter<Data, MyViewHolder>(recyclerOptions) {
+            @Override
+            protected void onBindViewHolder(@NonNull MyViewHolder holder, int position, @NonNull Data model) {
+                holder.setDate(model.getDate());
+                holder.setType(model.getType());
+                holder.setNote(model.getNote());
+                holder.setAmount(model.getAmount());
+            }
+
+            @NonNull
+            @Override
+            public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+                return null;
+            }
+        };
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -154,7 +176,7 @@ public class HomeActivity extends AppCompatActivity
                 Data data=new Data(mType,amount,mNote,date,id);
                 mDatabase.child(id).setValue(data);
                 Toast.makeText(HomeActivity.this, "Data Added..", Toast.LENGTH_SHORT).show();
-                
+
                 dialog.dismiss();
             }
         });
