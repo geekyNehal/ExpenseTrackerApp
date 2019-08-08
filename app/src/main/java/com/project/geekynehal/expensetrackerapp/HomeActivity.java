@@ -22,6 +22,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -33,6 +34,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.lang.reflect.Type;
+import java.text.DateFormat;
+import java.util.Date;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -100,7 +103,7 @@ public class HomeActivity extends AppCompatActivity
                     {
                         Data data=snap.getValue(Data.class);
                         total_amount=data.getAmount();
-                        String amount =String.valueOf(total_amount+".00");
+                        String amount=String.valueOf(total_amount+".00");
                         totalsumResult.setText(amount);
                     }
             }
@@ -145,6 +148,13 @@ public class HomeActivity extends AppCompatActivity
                     note.setError("Required Field..");
                     return ;
                 }
+
+                String id=mDatabase.push().getKey();
+                String date= DateFormat.getDateInstance().format(new Date());
+                Data data=new Data(mType,amount,mNote,date,id);
+                mDatabase.child(id).setValue(data);
+                Toast.makeText(HomeActivity.this, "Data Added..", Toast.LENGTH_SHORT).show();
+                
                 dialog.dismiss();
             }
         });
