@@ -82,7 +82,7 @@
                     <EditText
                         android:layout_width="match_parent"
                         android:layout_margin="10dp"
-                        android:id="@+id/edt_ammount"
+                        android:id="@+id/update_edt_ammount"
                         android:layout_height="wrap_content" />
 
                 </RelativeLayout>
@@ -115,7 +115,7 @@
                     <EditText
                         android:layout_width="match_parent"
                         android:layout_margin="10dp"
-                        android:id="@+id/edt_note"
+                        android:id="@+id/update_edt_note"
                         android:layout_height="wrap_content" />
 
                 </RelativeLayout>
@@ -127,8 +127,8 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:background="@drawable/btn_back"
-                android:text="SAVE"
-                android:id="@+id/btn_save"
+                android:text="Update"
+                android:id="@+id/btn_update"
                 android:textAppearance="?android:textAppearanceMedium"
                 android:textColor="@android:color/white"
                 />
