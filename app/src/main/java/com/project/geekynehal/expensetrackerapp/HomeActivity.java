@@ -109,6 +109,13 @@ public class HomeActivity extends AppCompatActivity
                 holder.setType(model.getType());
                 holder.setNote(model.getNote());
                 holder.setAmount(model.getAmount());
+                holder.myView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view)
+                    {
+                        updateData();
+                    }
+                });
             }
 
             @NonNull
@@ -284,5 +291,33 @@ public class HomeActivity extends AppCompatActivity
             String stam=String.valueOf(ammount);
             mAmount.setText(stam);
         }
+    }
+    public void updateData()
+    {
+        AlertDialog.Builder myDialog=new AlertDialog.Builder(HomeActivity.this);
+        LayoutInflater inflater=LayoutInflater.from(HomeActivity.this);
+        View mView=inflater.inflate(R.layout.update_inputfield,null);
+        AlertDialog dialog=myDialog.create();
+        EditText edit_type=mView.findViewById(R.id.update_edt_type);
+        EditText edt_amount=mView.findViewById(R.id.update_edt_ammount);
+        EditText edt_note=mView.findViewById(R.id.update_edt_note);
+        Button btnUpdate=mView.findViewById(R.id.btn_upd);
+        Button btnDelete=mView.findViewById(R.id.btn_delete_upd);
+        btnUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+
+            }
+        });
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+                
+            }
+        });
+        dialog.setView(mView);
+        dialog.show();
     }
 }
