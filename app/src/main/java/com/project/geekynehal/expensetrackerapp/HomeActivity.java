@@ -330,7 +330,9 @@ public class HomeActivity extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
+                mDatabase.child(post_key).removeValue();
 
+                dialog.dismiss();
             }
         });
         dialog.setView(mView);
