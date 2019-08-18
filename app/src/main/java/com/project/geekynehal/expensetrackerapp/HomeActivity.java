@@ -117,7 +117,7 @@ public class HomeActivity extends AppCompatActivity
                         type=model.getType();
                         note=model.getNote();
                         amount=model.getAmount();
-                        
+
                         updateData();
                     }
                 });
@@ -312,13 +312,6 @@ public class HomeActivity extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-
-            }
-        });
-        btnDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view)
-            {
                 type=edit_type.getText().toString().trim();
                 String mAmount=String.valueOf(amount);
                 mAmount=edt_amount.getText().toString().trim();
@@ -331,6 +324,13 @@ public class HomeActivity extends AppCompatActivity
                 mDatabase.child(post_key).setValue(data);
 
                 dialog.dismiss();
+            }
+        });
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+
             }
         });
         dialog.setView(mView);
