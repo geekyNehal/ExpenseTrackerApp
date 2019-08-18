@@ -104,7 +104,7 @@ public class HomeActivity extends AppCompatActivity
 
         firebaseRecyclerAdapter=new FirebaseRecyclerAdapter<Data, MyViewHolder>(recyclerOptions) {
             @Override
-            protected void onBindViewHolder(@NonNull MyViewHolder holder, int position, @NonNull Data model) {
+            protected void onBindViewHolder(@NonNull MyViewHolder holder, final int position, @NonNull final Data model) {
                 holder.setDate(model.getDate());
                 holder.setType(model.getType());
                 holder.setNote(model.getNote());
@@ -113,6 +113,11 @@ public class HomeActivity extends AppCompatActivity
                     @Override
                     public void onClick(View view)
                     {
+                        post_key=getRef(position).getKey();
+                        type=model.getType();
+                        note=model.getNote();
+                        amount=model.getAmount();
+                        
                         updateData();
                     }
                 });
@@ -297,10 +302,10 @@ public class HomeActivity extends AppCompatActivity
         AlertDialog.Builder myDialog=new AlertDialog.Builder(HomeActivity.this);
         LayoutInflater inflater=LayoutInflater.from(HomeActivity.this);
         View mView=inflater.inflate(R.layout.update_inputfield,null);
-        AlertDialog dialog=myDialog.create();
-        EditText edit_type=mView.findViewById(R.id.update_edt_type);
-        EditText edt_amount=mView.findViewById(R.id.update_edt_ammount);
-        EditText edt_note=mView.findViewById(R.id.update_edt_note);
+        final AlertDialog dialog=myDialog.create();
+        final EditText edit_type=mView.findViewById(R.id.update_edt_type);
+        final EditText edt_amount=mView.findViewById(R.id.update_edt_ammount);
+        final EditText edt_note=mView.findViewById(R.id.update_edt_note);
         Button btnUpdate=mView.findViewById(R.id.btn_upd);
         Button btnDelete=mView.findViewById(R.id.btn_delete_upd);
         btnUpdate.setOnClickListener(new View.OnClickListener() {
@@ -314,7 +319,18 @@ public class HomeActivity extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                
+                type=edit_type.getText().toString().trim();
+                String mAmount=String.valueOf(amount);
+                mAmount=edt_amount.getText().toString().trim();
+                note=edt_note.getText().toString().trim();
+                int int_amount=Integer.parseInt(mAmount);
+                String date=DateFormat.getDateInstance().format(new Date());
+
+                Data data=new Data(type,int_amount,note,date,post_key);
+
+                mDatabase.child(post_key).setValue(data);
+
+                dialog.dismiss();
             }
         });
         dialog.setView(mView);
