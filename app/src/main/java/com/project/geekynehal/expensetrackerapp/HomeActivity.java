@@ -1,5 +1,6 @@
 package com.project.geekynehal.expensetrackerapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -61,13 +62,7 @@ public class HomeActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Expense List");
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                customDialog();
-            }
-        });
+
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -104,7 +99,7 @@ public class HomeActivity extends AppCompatActivity
 
         firebaseRecyclerAdapter=new FirebaseRecyclerAdapter<Data, MyViewHolder>(recyclerOptions) {
             @Override
-            protected void onBindViewHolder(@NonNull MyViewHolder holder, final int position, @NonNull final Data model) {
+            protected void onBindViewHolder(MyViewHolder holder, final int position,final Data model) {
                 holder.setDate(model.getDate());
                 holder.setType(model.getType());
                 holder.setNote(model.getNote());
@@ -123,9 +118,8 @@ public class HomeActivity extends AppCompatActivity
                 });
             }
 
-            @NonNull
             @Override
-            public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+            public MyViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
                 View view=LayoutInflater.from(viewGroup.getContext())
                         .inflate(R.layout.item_data,viewGroup,false);
                 return new MyViewHolder(view);
@@ -148,6 +142,14 @@ public class HomeActivity extends AppCompatActivity
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
+            }
+        });
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                customDialog();
             }
         });
     }
@@ -212,7 +214,7 @@ public class HomeActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.home, menu);
-        return true;
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -223,7 +225,9 @@ public class HomeActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.log_out) {
+            mAuth.signOut();
+            startActivity(new Intent(getApplicationContext(),MainActivity.class));
             return true;
         }
 
