@@ -9,6 +9,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -79,7 +80,7 @@ public class HomeActivity extends AppCompatActivity
         //getting user detail
         FirebaseUser mUser=mAuth.getCurrentUser();
         String uId=mUser.getUid();
-        mDatabase= FirebaseDatabase.getInstance().getReference().child("Expense Tracker").child(uId);
+        mDatabase= FirebaseDatabase.getInstance().getReference().child("posts").child(uId);
         mDatabase.keepSynced(true);
 
         Query query=mDatabase.orderByKey();
@@ -126,9 +127,10 @@ public class HomeActivity extends AppCompatActivity
             }
         };
         recyclerView.setAdapter(firebaseRecyclerAdapter);
+        //Read from the database.
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            public void onDataChange(DataSnapshot dataSnapshot) {
                     int total_amount=0;
                     for(DataSnapshot snap:dataSnapshot.getChildren())
                     {
@@ -141,7 +143,7 @@ public class HomeActivity extends AppCompatActivity
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                Log.w("Warn", "Failed to read value.", databaseError.toException());
             }
         });
 
@@ -189,8 +191,9 @@ public class HomeActivity extends AppCompatActivity
                 }
 
                 String id=mDatabase.push().getKey();
+                int mAmt=Integer.parseInt(mAmount);
                 String date= DateFormat.getDateInstance().format(new Date());
-                Data data=new Data(mType,amount,mNote,date,id);
+                Data data=new Data(mType,mAmt,mNote,date,id);
                 mDatabase.child(id).setValue(data);
                 Toast.makeText(HomeActivity.this, "Data Added..", Toast.LENGTH_SHORT).show();
 
